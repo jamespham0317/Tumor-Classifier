@@ -1,4 +1,4 @@
-# Tumor Classification with CNNs
+# Tumor Classification using CNNs
 
 A Convolutional Neural Network (CNN) built with TensorFlow/Keras to classify histopathology images of tumors as either benign or malignant using the 
 [BreakHis dataset](https://www.kaggle.com/datasets/ambarish/breakhis).
