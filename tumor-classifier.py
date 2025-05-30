@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
+from tensorflow.keras.callbacks import EarlyStopping
 
 datagen = ImageDataGenerator(
     rescale=1./255,
@@ -35,7 +36,15 @@ cnn.add(tf.keras.layers.Flatten())
 cnn.add(tf.keras.layers.Dense(units=128, activation='relu'))
 cnn.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
 cnn.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
-history = cnn.fit(training_set, validation_data = test_set, epochs = 25)
+
+early_stop = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+
+history = cnn.fit(
+    training_set, 
+    validation_data = test_set, 
+    epochs = 25, 
+    callbacks=[early_stop]
+)
 
 cnn.save("tumor_classifier_model.h5")
 
@@ -46,4 +55,6 @@ plt.ylabel('Accuracy')
 plt.title('Model Accuracy Over Time')
 plt.legend()
 plt.grid(True)
+
+plt.savefig("accuracy_plot.png")
 plt.show()
